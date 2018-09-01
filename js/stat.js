@@ -50,14 +50,15 @@ window.renderStatistics = function(ctx, names, times) {
 
   //Заготовки перед циклом
 
-  var playerIndex = 0;
-  var playerName = 'Вы';
+  //var playerIndex = 0;
+  //var playerName = 'Вы';
 
-  var players = ['Вы', 'Иван', 'Юлия', 'Роман'];
+  //var players = ['Вы', 'Иван', 'Юлия', 'Роман'];
 
   var maxTime = getMaxElement(times);
 
-  for(var i = 0; i < players.length; i++) {
+  for(var i = 0; i < names.length; i++) {
+
 
     //MAX_TIME            TIMES[I]
     //-------             --------
@@ -65,11 +66,16 @@ window.renderStatistics = function(ctx, names, times) {
 
     //X = HISTOGRAM_HEIGHT*TIMES[I]/MAX_TIME
 
-
-
-    ctx.fillText(players[i], CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, CLOUD_HEIGHT - STEP);
+    ctx.fillStyle = 'rgba(0, 0, 255, ' + Math.random() + ')';
+    if(names[i] === 'Вы') {
+      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+       }
     ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, CLOUD_HEIGHT - HISTOGRAM_HEIGHT*times[i]/maxTime - STEP*2, BAR_WIDTH, HISTOGRAM_HEIGHT*times[i]/maxTime);
 
+    ctx.fillStyle = '#000';
+    ctx.fillText(names[i], CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, CLOUD_HEIGHT - STEP);
+
+    ctx.fillText(Math.floor(times[i]), CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, CLOUD_HEIGHT - HISTOGRAM_HEIGHT*times[i]/maxTime - STEP*5);
   }
 
   /*ctx.fillText(playerName, CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*playerIndex, CLOUD_HEIGHT - STEP);
