@@ -27,19 +27,33 @@ window.renderStatistics = function(ctx, names, times) {
 
   ctx.font = '16px PT Mono';
   ctx.textBaseline = 'top';
-  ctx.fillText('Ура вы победили!', CLOUD_POSITION_X + STEP, CLOUD_POSITION_Y + STEP * 1.5);
+  ctx.fillText('Ура! Вы победили!', CLOUD_POSITION_X + STEP, CLOUD_POSITION_Y + STEP * 1.5);
   ctx.fillText('Список результатов:', CLOUD_POSITION_X + STEP, CLOUD_POSITION_Y + STEP * 1.5 + FONT_STEP);
 
+  //Заготовки перед циклом
 
-  ctx.fillText('Вы', CLOUD_POSITION_X + BAR_STEP, 260);
-  ctx.fillRect(CLOUD_POSITION_X + BAR_STEP, HISTOGRAM_HEIGHT - 30, BAR_WIDTH, 120);
+  var playerIndex = 0;
+  var playerName = 'Вы';
 
-  ctx.fillText('Иван', CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP), 260);
+  var players = ['Вы', 'Иван', 'Юлия', 'Роман'];
+
+  for(var i = 0; i < players.length; i++) {
+    ctx.fillText(players[i], CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, CLOUD_HEIGHT - STEP);
+    ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, HISTOGRAM_HEIGHT - 30, BAR_WIDTH, 120);
+
+  }
+
+  /*ctx.fillText(playerName, CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*playerIndex, CLOUD_HEIGHT - STEP);
+  ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*playerIndex, HISTOGRAM_HEIGHT - 30, BAR_WIDTH, 120);
+
+  ctx.fillText('Иван', CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*1, CLOUD_HEIGHT - STEP);
   ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP), HISTOGRAM_HEIGHT - 30, BAR_WIDTH, 120);
 
-  ctx.fillText('Юлия', CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*2, 260);
+  ctx.fillText('Юлия', CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*2, CLOUD_HEIGHT - STEP);
   ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*2, HISTOGRAM_HEIGHT - 30, BAR_WIDTH, 120);
 
-  ctx.fillText('Роман', CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*3, 260);
+  ctx.fillText('Роман', CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*3, CLOUD_HEIGHT - STEP);
   ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*3, HISTOGRAM_HEIGHT - 30, BAR_WIDTH, 120);
+*/
 };
+
