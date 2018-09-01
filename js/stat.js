@@ -17,6 +17,24 @@ var renderCloud = function(ctx, x, y, color) {
 
 };
 
+//Функция нахождения максимального элемента в массиве
+
+var getMaxElement = function(array) {
+  for (var i = 0; i < array.length - 1; i++) {
+    var maxValue = array[i];
+
+    for (var j = i + 1; j < array.length; j++) {
+      if (array[j] > maxValue) {
+        maxValue = array[j];
+        var swap = array[i];
+        array[i] = maxValue;
+        array[j] = swap;
+      }
+    }
+    return maxValue;
+  }
+};
+
 window.renderStatistics = function(ctx, names, times) {
 
   renderCloud(ctx, CLOUD_POSITION_X + STEP, CLOUD_POSITION_Y + STEP, 'rgba(0, 0, 0, .7)');
@@ -37,9 +55,20 @@ window.renderStatistics = function(ctx, names, times) {
 
   var players = ['Вы', 'Иван', 'Юлия', 'Роман'];
 
+  var maxTime = getMaxElement(times);
+
   for(var i = 0; i < players.length; i++) {
+
+    //MAX_TIME            TIMES[I]
+    //-------             --------
+    //HISTOGRAM_HEIGHT        X
+
+    //X = HISTOGRAM_HEIGHT*TIMES[I]/MAX_TIME
+
+
+
     ctx.fillText(players[i], CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, CLOUD_HEIGHT - STEP);
-    ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, HISTOGRAM_HEIGHT - 30, BAR_WIDTH, 120);
+    ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, HISTOGRAM_HEIGHT - 30, BAR_WIDTH, HISTOGRAM_HEIGHT*times[i]/maxTime);
 
   }
 
