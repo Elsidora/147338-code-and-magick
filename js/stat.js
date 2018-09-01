@@ -13,7 +13,17 @@ var BAR_STEP = 50; //расстояние между столбиками
 //Функция отрисовки облака
 var renderCloud = function(ctx, x, y, color) {
   ctx.fillStyle = color;
-  ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x + CLOUD_WIDTH/2, y - STEP);
+  ctx.lineTo(x + CLOUD_WIDTH, y);
+  ctx.lineTo(x + CLOUD_WIDTH + STEP * 3, y + CLOUD_HEIGHT/2);
+  ctx.lineTo(x + CLOUD_WIDTH, y + CLOUD_HEIGHT);
+  ctx.lineTo(x + CLOUD_WIDTH/2, y + CLOUD_HEIGHT + STEP);
+  ctx.lineTo(x, y + CLOUD_HEIGHT);
+  ctx.lineTo(x - STEP * 3, y + CLOUD_HEIGHT/2);
+  ctx.fill();
+  //ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 
 };
 
@@ -48,12 +58,6 @@ window.renderStatistics = function(ctx, names, times) {
   ctx.fillText('Ура! Вы победили!', CLOUD_POSITION_X + STEP, CLOUD_POSITION_Y + STEP * 1.5);
   ctx.fillText('Список результатов:', CLOUD_POSITION_X + STEP, CLOUD_POSITION_Y + STEP * 1.5 + FONT_STEP);
 
-  //Заготовки перед циклом
-
-  //var playerIndex = 0;
-  //var playerName = 'Вы';
-
-  //var players = ['Вы', 'Иван', 'Юлия', 'Роман'];
 
   var maxTime = getMaxElement(times);
 
@@ -78,17 +82,5 @@ window.renderStatistics = function(ctx, names, times) {
     ctx.fillText(Math.floor(times[i]), CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, CLOUD_HEIGHT - HISTOGRAM_HEIGHT*times[i]/maxTime - STEP*5);
   }
 
-  /*ctx.fillText(playerName, CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*playerIndex, CLOUD_HEIGHT - STEP);
-  ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*playerIndex, HISTOGRAM_HEIGHT - 30, BAR_WIDTH, 120);
-
-  ctx.fillText('Иван', CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*1, CLOUD_HEIGHT - STEP);
-  ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP), HISTOGRAM_HEIGHT - 30, BAR_WIDTH, 120);
-
-  ctx.fillText('Юлия', CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*2, CLOUD_HEIGHT - STEP);
-  ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*2, HISTOGRAM_HEIGHT - 30, BAR_WIDTH, 120);
-
-  ctx.fillText('Роман', CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*3, CLOUD_HEIGHT - STEP);
-  ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*3, HISTOGRAM_HEIGHT - 30, BAR_WIDTH, 120);
-*/
 };
 
