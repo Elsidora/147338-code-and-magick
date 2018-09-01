@@ -68,7 +68,7 @@ window.renderStatistics = function(ctx, names, times) {
 
 
     ctx.fillText(players[i], CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, CLOUD_HEIGHT - STEP);
-    ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, HISTOGRAM_HEIGHT - 30, BAR_WIDTH, HISTOGRAM_HEIGHT*times[i]/maxTime);
+    ctx.fillRect(CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, CLOUD_HEIGHT - HISTOGRAM_HEIGHT*times[i]/maxTime - STEP*2, BAR_WIDTH, HISTOGRAM_HEIGHT*times[i]/maxTime);
 
   }
 
