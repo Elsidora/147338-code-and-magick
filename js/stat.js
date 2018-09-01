@@ -55,8 +55,8 @@ window.renderStatistics = function(ctx, names, times) {
 
   ctx.font = '16px PT Mono';
   ctx.textBaseline = 'top';
-  ctx.fillText('Ура! Вы победили!', CLOUD_POSITION_X + STEP, CLOUD_POSITION_Y + STEP * 1.5);
-  ctx.fillText('Список результатов:', CLOUD_POSITION_X + STEP, CLOUD_POSITION_Y + STEP * 1.5 + FONT_STEP);
+  ctx.fillText('Ура! Вы победили!', CLOUD_POSITION_X + STEP * 3, CLOUD_POSITION_Y + STEP * 1.5);
+  ctx.fillText('Список результатов:', CLOUD_POSITION_X + STEP * 3, CLOUD_POSITION_Y + STEP * 1.5 + FONT_STEP);
 
 
   var maxTime = getMaxElement(times);
@@ -81,6 +81,5 @@ window.renderStatistics = function(ctx, names, times) {
 
     ctx.fillText(Math.floor(times[i]), CLOUD_POSITION_X + BAR_STEP + (BAR_WIDTH + BAR_STEP)*i, CLOUD_HEIGHT - HISTOGRAM_HEIGHT*times[i]/maxTime - STEP*5);
   }
-
 };
 
