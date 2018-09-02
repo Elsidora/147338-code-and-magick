@@ -30,19 +30,11 @@ var renderCloud = function(ctx, x, y, color) {
 //Функция нахождения максимального элемента в массиве
 
 var getMaxElement = function(array) {
-  for (var i = 0; i < array.length - 1; i++) {
-    var maxValue = array[i];
-
-    for (var j = i + 1; j < array.length; j++) {
-      if (array[j] > maxValue) {
-        maxValue = array[j];
-        var swap = array[i];
-        array[i] = maxValue;
-        array[j] = swap;
-      }
-    }
-    return maxValue;
+  var maxElement = 0;
+  for(var i = 0; i < array.length; i++) {
+    maxElement = array[i] > maxElement ? array[i] : maxElement;
   }
+  return maxElement;
 };
 
 window.renderStatistics = function(ctx, names, times) {
