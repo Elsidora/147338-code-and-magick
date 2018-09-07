@@ -1,14 +1,13 @@
 'use strict';
 
+var countPersonages = 4;
+
 var setupBlock = document.querySelector('.setup');
 
 setupBlock.classList.remove('hidden');
 
 setupBlock.querySelector('.setup-similar').classList.remove('hidden'); // блок с похожими персонажами
 
-var setupSimilarList = setupBlock.querySelector('.setup-similar-list'); // эл-т, куда вставляем похожих магов
-
-var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item'); // шаблон, который будем клонировать
 
 // Создаем данные
 
@@ -28,35 +27,50 @@ var getRandomValue = function (array) {
 };
 
 // Функция генерации объектов персонажей
-var generatePersonagesObjects = function(count) {
-    var personagesObjects = [];
-    for (var i = 0; i < count; i++) {
-        var personageObject = {
-            name: getRandomValue(PERSONAGES_NAMES) + ' ' + getRandomValue(PERSONAGES_FAMILY),
-            coatColor: getRandomValue(PERSONAGES_COATS),
-            eyesColor: getRandomValue(PERSONAGES_EYES)
-        }
-        personagesObjects[i] = personageObject;
+var generatePersonagesObjects = function (count) {
+  var personagesObjects = [];
+  for (var i = 0; i < count; i++) {
+    var personageObject = {
+      name: getRandomValue(PERSONAGES_NAMES) + ' ' + getRandomValue(PERSONAGES_FAMILY),
+      coatColor: getRandomValue(PERSONAGES_COATS),
+      eyesColor: getRandomValue(PERSONAGES_EYES)
     }
+    personagesObjects[i] = personageObject;
+  }
 
-    return personagesObjects;
+  return personagesObjects;
 };
 
 // Задание 3.3
 // Функция создания DOM-элементов
-var renderPersonage = function(personage) {
-    var personageElement = similarWizardTemplate.cloneNode(true);
+var renderPersonage = function (personage) {
+  var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item'); // шаблон, который будем клонировать
+  var personageElement = similarWizardTemplate.cloneNode(true);
 
-    personageElement.querySelector('.setup-similar-label').textContent = personage.name;
-    personageElement.querySelector('.wizard-coat').style.fill = personage.coatColor;
-    personageElement.querySelector('.wizard-eyes').style.fill = personage.eyesColor;
+  personageElement.querySelector('.setup-similar-label').textContent = personage.name;
+  personageElement.querySelector('.wizard-coat').style.fill = personage.coatColor;
+  personageElement.querySelector('.wizard-eyes').style.fill = personage.eyesColor;
 
-    return personageElement;
+  return personageElement;
 };
 
 // Задание 3.4
-//
+// Функция добавления DOM-элементов во фрагмент
+var getFragment = function (array) {
+  var fragment = document.createDocumentFragment();
 
+  for (var i = 0; i < array.length; i++) {
+    fragment.appendChild(renderPersonage(array[i]));
+  }
+  return fragment;
+};
 
+// Функция отрисовки DOM-элементов
+var renderPersonages = function (arrObjects) {
+  var setupSimilarList = setupBlock.querySelector('.setup-similar-list'); // эл-т, куда вставляем похожих магов
+  var similarListElement = document.querySelector('.setup-similar-list');
+  similarListElement.appendChild(getFragment(arrObjects));
 
+};
 
+renderPersonages(generatePersonagesObjects(countPersonages));
