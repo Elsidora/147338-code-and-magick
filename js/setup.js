@@ -20,24 +20,26 @@ var PERSONAGES_COATS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100
 
 var PERSONAGES_EYES = ['black', 'red', 'blue', 'yellow', 'green'];
 
-// Отрисуем шаблон в документ
+// Задание 3.2
 
-for (var i = 0; i < 4; i++) {
-  var personageElement = similarWizardTemplate.cloneNode(true);
+//функция генерации случайного значения массива
+var getRandomValue = function (array) {
+  return array[Math.floor(Math.random() * array.length)];
+};
 
-  personageElement.querySelector('.setup-similar-label').textContent = PERSONAGES_NAMES[i] + ' ' + PERSONAGES_FAMILY[i];
+var generatePersonagesObjects = function(count) {
+    var personagesObjects = [];
+    for (var i = 0; i < count; i++) {
+        var personageObject = {
+            name: getRandomValue(PERSONAGES_NAMES) + ' ' + getRandomValue(PERSONAGES_FAMILY),
+            coatColor: getRandomValue(PERSONAGES_COATS),
+            eyesColor: getRandomValue(PERSONAGES_EYES)
+        }
+        personagesObjects[i] = personageObject;
+    }
 
-  personageElement.querySelector('.wizard-coat').style.fill = PERSONAGES_COATS[i];
-
-  personageElement.querySelector('.wizard-eyes').style.fill = PERSONAGES_EYES[i];
-
-  setupSimilarList.appendChild(personageElement);
-}
+    return personagesObjects;
+};
 
 
 
-
-/*var personages = [
-
-];
-*/
