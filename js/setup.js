@@ -27,6 +27,7 @@ var getRandomValue = function (array) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
+// Функция генерации объектов персонажей
 var generatePersonagesObjects = function(count) {
     var personagesObjects = [];
     for (var i = 0; i < count; i++) {
@@ -40,6 +41,22 @@ var generatePersonagesObjects = function(count) {
 
     return personagesObjects;
 };
+
+// Задание 3.3
+// Функция создания DOM-элементов
+var renderPersonage = function(personage) {
+    var personageElement = similarWizardTemplate.cloneNode(true);
+
+    personageElement.querySelector('.setup-similar-label').textContent = personage.name;
+    personageElement.querySelector('.wizard-coat').style.fill = personage.coatColor;
+    personageElement.querySelector('.wizard-eyes').style.fill = personage.eyesColor;
+
+    return personageElement;
+};
+
+// Задание 3.4
+//
+
 
 
 
