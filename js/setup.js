@@ -40,29 +40,29 @@ var setupFireball = setupBlock.querySelector('.setup-fireball-wrap');
 
 // Задание 3.2
 
-//функция генерации случайного значения массива
-function getRandomValue (array) {
+// Функция генерации случайного значения массива
+function getRandomValue(array) {
   return array[Math.floor(Math.random() * array.length)];
-};
+}
 
 // Функция генерации объектов персонажей
-function generatePersonagesObjects (count) {
+function generatePersonagesObjects(count) {
   var personagesObjects = [];
   for (var i = 0; i < count; i++) {
     var personageObject = {
       name: getRandomValue(PERSONAGES_NAMES) + ' ' + getRandomValue(PERSONAGES_FAMILY),
       coatColor: getRandomValue(PERSONAGES_COATS),
       eyesColor: getRandomValue(PERSONAGES_EYES)
-    }
+    };
     personagesObjects[i] = personageObject;
   }
 
   return personagesObjects;
-};
+}
 
 // Задание 3.3
 // Функция создания DOM-элементов
-function renderPersonage (personage) {
+function renderPersonage(personage) {
 
   var personageElement = similarWizardTemplate.cloneNode(true);
 
@@ -71,58 +71,57 @@ function renderPersonage (personage) {
   personageElement.querySelector('.wizard-eyes').style.fill = personage.eyesColor;
 
   return personageElement;
-};
+}
 
 // Задание 3.4
 // Функция добавления DOM-элементов во фрагмент
-function getFragment (array) {
+function getFragment(array) {
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < array.length; i++) {
     fragment.appendChild(renderPersonage(array[i]));
   }
   return fragment;
-};
+}
 
 // Функция отрисовки DOM-элементов
-function renderPersonages (arrObjects) {
+function renderPersonages(arrObjects) {
   var setupSimilarList = setupBlock.querySelector('.setup-similar-list'); // эл-т, куда вставляем похожих магов
   setupSimilarList.appendChild(getFragment(arrObjects));
+}
 
-};
 
-
-function onPressCoat () {
+function onPressCoat() {
   var changeCoatColor = getRandomValue(PERSONAGES_COATS);
   setupWizardCoat.style.fill = changeCoatColor;
   var changeCoatInput = setupBlock.querySelector('input[name="coat-color"]');
   changeCoatInput.value = changeCoatColor;
-};
+}
 
-function onPressEyes () {
+function onPressEyes() {
   var changeEyesColor = getRandomValue(PERSONAGES_EYES);
   setupWizardEyes.style.fill = changeEyesColor;
   var changeEyesInput = setupBlock.querySelector('input[name="eyes-color"]');
   changeEyesInput.value = changeEyesColor;
-};
+}
 
-function onPressFireball () {
+function onPressFireball() {
   var changeFireballColor = getRandomValue(PERSONAGES_FIREBALLS);
   setupFireball.style.background = changeFireballColor;
   var changeFireballInput = setupBlock.querySelector('input[name="fireball-color"]');
   changeFireballInput.value = changeFireballColor;
-};
+}
 
-function onSetupKeyPress (evt) {
-  if(evt.keyCode === ESC_CODE) {
+function onSetupKeyPress(evt) {
+  if (evt.keyCode === ESC_CODE) {
     evt.preventDefault();
-    if(!setupBlock.classList.contains('hidden')) {
+    if (!setupBlock.classList.contains('hidden')) {
       closeSetupBlock();
     }
   }
-};
+}
 
-function openSetupBlock () {
+function openSetupBlock() {
   setupBlock.classList.remove('hidden');
   window.addEventListener('keydown', onSetupKeyPress);
   setupWizardCoat.addEventListener('click', onPressCoat);
@@ -134,12 +133,12 @@ function openSetupBlock () {
   setupUserName.addEventListener('blur', function () {
     window.addEventListener('keydown', onSetupKeyPress);
   });
-};
+}
 
-function closeSetupBlock () {
+function closeSetupBlock() {
   setupBlock.classList.add('hidden');
   window.removeEventListener('keydown', onSetupKeyPress);
-};
+}
 
 setupOpen.addEventListener('click', function () {
   openSetupBlock();
@@ -151,9 +150,9 @@ setupClose.addEventListener('click', function () {
 
 
 setupOpen.addEventListener('keydown', function (evt) {
-  if(evt.keyCode === ENTER_CODE) {
+  if (evt.keyCode === ENTER_CODE) {
     evt.preventDefault();
-    if(setupBlock.classList.contains('hidden')) {
+    if (setupBlock.classList.contains('hidden')) {
       openSetupBlock();
     }
   }
@@ -161,9 +160,9 @@ setupOpen.addEventListener('keydown', function (evt) {
 
 
 setupClose.addEventListener('keydown', function (evt) {
-  if(evt.keyCode === ENTER_CODE) {
+  if (evt.keyCode === ENTER_CODE) {
     evt.preventDefault();
-    if(!setupBlock.classList.contains('hidden')) {
+    if (!setupBlock.classList.contains('hidden')) {
       closeSetupBlock();
     }
   }
