@@ -1,14 +1,5 @@
 'use strict';
 
-var countPersonages = 4;
-
-var setupBlock = document.querySelector('.setup');
-
-setupBlock.classList.remove('hidden');
-
-setupBlock.querySelector('.setup-similar').classList.remove('hidden'); // блок с похожими персонажами
-
-
 // Создаем данные
 
 var PERSONAGES_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
@@ -19,15 +10,43 @@ var PERSONAGES_COATS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100
 
 var PERSONAGES_EYES = ['black', 'red', 'blue', 'yellow', 'green'];
 
+var PERSONAGES_FIREBALLS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+
+var ENTER_CODE = 13;
+
+var ESC_CODE = 27;
+
+var countPersonages = 4;
+
+var setupBlock = document.querySelector('.setup');
+
+var setupUserName = setupBlock.querySelector('.setup-user-name');
+
+var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item'); // шаблон, который будем клонировать
+
+document.querySelector('.setup-similar').classList.remove('hidden');
+
+var setupOpen = document.querySelector('.setup-open');
+
+var setupClose = document.querySelector('.setup-close');
+
+var setupWizardCoat = setupBlock.querySelector('.setup-wizard .wizard-coat');
+
+var setupWizardEyes = setupBlock.querySelector('.setup-wizard .wizard-eyes');
+
+var setupFireball = setupBlock.querySelector('.setup-fireball-wrap');
+
+
+
 // Задание 3.2
 
 //функция генерации случайного значения массива
-var getRandomValue = function (array) {
+function getRandomValue (array) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
 // Функция генерации объектов персонажей
-var generatePersonagesObjects = function (count) {
+function generatePersonagesObjects (count) {
   var personagesObjects = [];
   for (var i = 0; i < count; i++) {
     var personageObject = {
@@ -43,8 +62,8 @@ var generatePersonagesObjects = function (count) {
 
 // Задание 3.3
 // Функция создания DOM-элементов
-var renderPersonage = function (personage) {
-  var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item'); // шаблон, который будем клонировать
+function renderPersonage (personage) {
+
   var personageElement = similarWizardTemplate.cloneNode(true);
 
   personageElement.querySelector('.setup-similar-label').textContent = personage.name;
@@ -56,7 +75,7 @@ var renderPersonage = function (personage) {
 
 // Задание 3.4
 // Функция добавления DOM-элементов во фрагмент
-var getFragment = function (array) {
+function getFragment (array) {
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < array.length; i++) {
@@ -66,11 +85,90 @@ var getFragment = function (array) {
 };
 
 // Функция отрисовки DOM-элементов
-var renderPersonages = function (arrObjects) {
+function renderPersonages (arrObjects) {
   var setupSimilarList = setupBlock.querySelector('.setup-similar-list'); // эл-т, куда вставляем похожих магов
-  var similarListElement = document.querySelector('.setup-similar-list');
-  similarListElement.appendChild(getFragment(arrObjects));
+  setupSimilarList.appendChild(getFragment(arrObjects));
 
 };
 
+
+function onPressCoat () {
+  var changeCoatColor = getRandomValue(PERSONAGES_COATS);
+  setupWizardCoat.style.fill = changeCoatColor;
+  var changeCoatInput = setupBlock.querySelector('input[name="coat-color"]');
+  changeCoatInput.value = changeCoatColor;
+};
+
+function onPressEyes () {
+  var changeEyesColor = getRandomValue(PERSONAGES_EYES);
+  setupWizardEyes.style.fill = changeEyesColor;
+  var changeEyesInput = setupBlock.querySelector('input[name="eyes-color"]');
+  changeEyesInput.value = changeEyesColor;
+};
+
+function onPressFireball () {
+  var changeFireballColor = getRandomValue(PERSONAGES_FIREBALLS);
+  setupFireball.style.background = changeFireballColor;
+  var changeFireballInput = setupBlock.querySelector('input[name="fireball-color"]');
+  changeFireballInput.value = changeFireballColor;
+};
+
+function onSetupKeyPress (evt) {
+  if(evt.keyCode === ESC_CODE) {
+    evt.preventDefault();
+    if(!setupBlock.classList.contains('hidden')) {
+      closeSetupBlock();
+    }
+  }
+};
+
+function openSetupBlock () {
+  setupBlock.classList.remove('hidden');
+  window.addEventListener('keydown', onSetupKeyPress);
+  setupWizardCoat.addEventListener('click', onPressCoat);
+  setupWizardEyes.addEventListener('click', onPressEyes);
+  setupFireball.addEventListener('click', onPressFireball);
+  setupUserName.addEventListener('focus', function () {
+    window.removeEventListener('keydown', onSetupKeyPress);
+  });
+  setupUserName.addEventListener('blur', function () {
+    window.addEventListener('keydown', onSetupKeyPress);
+  });
+};
+
+function closeSetupBlock () {
+  setupBlock.classList.add('hidden');
+  window.removeEventListener('keydown', onSetupKeyPress);
+};
+
+setupOpen.addEventListener('click', function () {
+  openSetupBlock();
+});
+
+setupClose.addEventListener('click', function () {
+  closeSetupBlock();
+});
+
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if(evt.keyCode === ENTER_CODE) {
+    evt.preventDefault();
+    if(setupBlock.classList.contains('hidden')) {
+      openSetupBlock();
+    }
+  }
+});
+
+
+setupClose.addEventListener('keydown', function (evt) {
+  if(evt.keyCode === ENTER_CODE) {
+    evt.preventDefault();
+    if(!setupBlock.classList.contains('hidden')) {
+      closeSetupBlock();
+    }
+  }
+});
+
 renderPersonages(generatePersonagesObjects(countPersonages));
+
+
