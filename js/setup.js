@@ -36,8 +36,6 @@ var setupWizardEyes = setupBlock.querySelector('.setup-wizard .wizard-eyes');
 
 var setupFireball = setupBlock.querySelector('.setup-fireball-wrap');
 
-
-
 // Задание 3.2
 
 // Функция генерации случайного значения массива
