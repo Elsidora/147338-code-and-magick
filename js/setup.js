@@ -166,6 +166,8 @@ setupClose.addEventListener('keydown', function (evt) {
   }
 });
 
+
+
 renderPersonages(generatePersonagesObjects(countPersonages));
 
 
