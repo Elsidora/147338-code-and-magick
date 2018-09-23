@@ -1,59 +1,65 @@
 'use strict';
+(function () {
+  var setupAvatar = window.setup.setupBlock.querySelector('.upload');
 
-var setupBlock = document.querySelector('.setup');
-var setupAvatar = setupBlock.querySelector('input[name="avatar"]');
+  function onMouseDown(evt) {
+    evt.preventDefault();
 
+    // запомним координаты точки, с которой начали перемещать диалог
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
 
-function onMouseDown(evt) {
-  evt.preventDefault();
+    var dragged = false;
 
-  // запомним координаты точки, с которой начали перемещать диалог
-  var startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
+    // обновляем смещение относительно первоначальной точки
+
+    function onMouseMove(moveEvt) {
+      moveEvt.preventDefault();
+      dragged = true;
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      window.setup.setupBlock.style.top = (window.setup.setupBlock.offsetTop - shift.y) + 'px';
+      window.setup.setupBlock.style.left = (window.setup.setupBlock.offsetLeft - shift.x) + 'px';
+    }
+
+    // при отпускании мыши перестаем слушать событие движения мыши
+
+    function onMouseUp(upEvt) {
+      upEvt.preventDefault();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseUp', onMouseUp);
+    }
+
+    function onClickPreventDefault(prEvt) {
+      prEvt.preventDefault();
+      setupAvatar.removeEventListener('click', onClickPreventDefault);
+    }
+
+    if (dragged) {
+      onClickPreventDefault();
+    } else {
+      setupAvatar.addEventListener('click', onClickPreventDefault);
+    }
+
+    // событие передвижения
+    document.addEventListener('mousemove', onMouseMove);
+
+    // событие отпускания
+    document.addEventListener('mouseup', onMouseUp);
+  }
+
+  window.dialog = {
+    setupAvatar: setupAvatar,
+    onMouseDown: onMouseDown
   };
 
-  var dragged = false;
-
-  // обновляем смещение относительно первоначальной точки
-
-  function onMouseMove(moveEvt) {
-    moveEvt.preventDefault();
-    dragged = true;
-    var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
-    };
-    startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
-    };
-
-    setupBlock.style.top = (setupBlock.offsetTop - shift.y) + 'px';
-    setupBlock.style.left = (setupBlock.offsetLeft - shift.x) + 'px';
-  }
-
-  // при отпускании мыши перестаем слушать событие движения мыши
-
-  function onMouseUp(upEvt) {
-    upEvt.preventDefault();
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseUp', onMouseUp);
-  }
-
-  if (dragged) {
-    function onClickPreventDefault(evt) {
-      evt.preventDefault();
-      setupAvatar.removeEventListener('click', onClickPreventDefault)
-    };
-    setupAvatar.addEventListener('click', onClickPreventDefault);
-  }
-
-  // событие передвижения
-  document.addEventListener('mousemove', onMouseMove);
-
-  // событие отпускания
-  document.addEventListener('mouseup', onMouseUp);
-}
-
-setupAvatar.addEventListener('mousedown', onMouseDown);
+})();
