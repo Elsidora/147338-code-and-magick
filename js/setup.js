@@ -1,39 +1,22 @@
 'use strict';
 (function () {
 
-  // Создаем данные
-
-  var PERSONAGES_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-
-  var PERSONAGES_FAMILY = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-
-  var PERSONAGES_COATS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-
-  var PERSONAGES_EYES = ['black', 'red', 'blue', 'yellow', 'green'];
-
-  var PERSONAGES_FIREBALLS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-
   var ENTER_CODE = 13;
 
   var ESC_CODE = 27;
 
-  var START_COORD_LEFT = 50;
-
-  var START_COORD_TOP = 80;
-
-  var countPersonages = 4;
+  var Coordinate = {
+    START_LEFT: 50,
+    START_TOP: 80
+  };
 
   var setupBlock = document.querySelector('.setup');
 
   var setupUserName = setupBlock.querySelector('.setup-user-name');
 
-  var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item'); // шаблон, который будем клонировать
+  var setupAvatar = setupBlock.querySelector('.upload');
 
   document.querySelector('.setup-similar').classList.remove('hidden');
-
-  var setupOpen = document.querySelector('.setup-open');
-
-  var setupClose = document.querySelector('.setup-close');
 
   var setupWizardCoat = setupBlock.querySelector('.setup-wizard .wizard-coat');
 
@@ -41,78 +24,9 @@
 
   var setupFireball = setupBlock.querySelector('.setup-fireball-wrap');
 
-  // Задание 3.2
+  var setupOpen = document.querySelector('.setup-open');
 
-  // Функция генерации случайного значения массива
-  function getRandomValue(array) {
-    return array[Math.floor(Math.random() * array.length)];
-  }
-
-  // Функция генерации объектов персонажей
-  function generatePersonagesObjects(count) {
-    var personagesObjects = [];
-    for (var i = 0; i < count; i++) {
-      var personageObject = {
-        name: getRandomValue(PERSONAGES_NAMES) + ' ' + getRandomValue(PERSONAGES_FAMILY),
-        coatColor: getRandomValue(PERSONAGES_COATS),
-        eyesColor: getRandomValue(PERSONAGES_EYES)
-      };
-      personagesObjects[i] = personageObject;
-    }
-
-    return personagesObjects;
-  }
-
-  // Задание 3.3
-  // Функция создания DOM-элементов
-  function renderPersonage(personage) {
-
-    var personageElement = similarWizardTemplate.cloneNode(true);
-
-    personageElement.querySelector('.setup-similar-label').textContent = personage.name;
-    personageElement.querySelector('.wizard-coat').style.fill = personage.coatColor;
-    personageElement.querySelector('.wizard-eyes').style.fill = personage.eyesColor;
-
-    return personageElement;
-  }
-
-  // Задание 3.4
-  // Функция добавления DOM-элементов во фрагмент
-  function getFragment(array) {
-    var fragment = document.createDocumentFragment();
-
-    for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(renderPersonage(array[i]));
-    }
-    return fragment;
-  }
-
-  // Функция отрисовки DOM-элементов
-  function renderPersonages(arrObjects) {
-    var setupSimilarList = setupBlock.querySelector('.setup-similar-list'); // эл-т, куда вставляем похожих магов
-    setupSimilarList.appendChild(getFragment(arrObjects));
-  }
-
-  function onPressCoat() {
-    var changeCoatColor = getRandomValue(PERSONAGES_COATS);
-    setupWizardCoat.style.fill = changeCoatColor;
-    var changeCoatInput = setupBlock.querySelector('input[name="coat-color"]');
-    changeCoatInput.value = changeCoatColor;
-  }
-
-  function onPressEyes() {
-    var changeEyesColor = getRandomValue(PERSONAGES_EYES);
-    setupWizardEyes.style.fill = changeEyesColor;
-    var changeEyesInput = setupBlock.querySelector('input[name="eyes-color"]');
-    changeEyesInput.value = changeEyesColor;
-  }
-
-  function onPressFireball() {
-    var changeFireballColor = getRandomValue(PERSONAGES_FIREBALLS);
-    setupFireball.style.background = changeFireballColor;
-    var changeFireballInput = setupBlock.querySelector('input[name="fireball-color"]');
-    changeFireballInput.value = changeFireballColor;
-  }
+  var setupClose = document.querySelector('.setup-close');
 
   function onSetupKeyPress(evt) {
     if (evt.keyCode === ESC_CODE) {
@@ -126,10 +40,10 @@
   function openSetupBlock() {
     setupBlock.classList.remove('hidden');
     document.addEventListener('keydown', onSetupKeyPress);
-    setupWizardCoat.addEventListener('click', onPressCoat);
-    setupWizardEyes.addEventListener('click', onPressEyes);
-    setupFireball.addEventListener('click', onPressFireball);
-    window.dialog.setupAvatar.addEventListener('mousedown', window.dialog.onMouseDown);
+    setupWizardCoat.addEventListener('click', window.render.onPressCoat);
+    setupWizardEyes.addEventListener('click', window.render.onPressEyes);
+    setupFireball.addEventListener('click', window.render.onPressFireball);
+    setupAvatar.addEventListener('mousedown', window.dialog.onMouseDown);
     setupUserName.addEventListener('focus', onInputFocus);
     setupUserName.addEventListener('blur', onInputBlur);
   }
@@ -147,9 +61,9 @@
   function closeSetupBlock() {
     setupBlock.classList.add('hidden');
     document.removeEventListener('keydown', onSetupKeyPress);
-    window.dialog.setupAvatar.removeEventListener('mousedown', window.dialog.onMouseDown);
-    setupBlock.style.top = START_COORD_TOP + 'px';
-    setupBlock.style.left = START_COORD_LEFT + '%';
+    setupAvatar.removeEventListener('mousedown', window.dialog.onMouseDown);
+    setupBlock.style.top = Coordinate.START_TOP + 'px';
+    setupBlock.style.left = Coordinate.START_LEFT + '%';
   }
 
   setupOpen.addEventListener('click', function () {
@@ -160,7 +74,6 @@
     closeSetupBlock();
   });
 
-
   setupOpen.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_CODE) {
       evt.preventDefault();
@@ -170,7 +83,6 @@
     }
   });
 
-
   setupClose.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_CODE) {
       evt.preventDefault();
@@ -179,11 +91,5 @@
       }
     }
   });
-
-  renderPersonages(generatePersonagesObjects(countPersonages));
-
-  window.setup = {
-    setupBlock: setupBlock
-  };
 
 })();

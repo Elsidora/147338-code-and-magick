@@ -1,6 +1,7 @@
 'use strict';
 (function () {
-  var setupAvatar = window.setup.setupBlock.querySelector('.upload');
+  var setupBlock = document.querySelector('.setup');
+  var setupAvatar = setupBlock.querySelector('.upload');
 
   function onMouseDown(evt) {
     evt.preventDefault();
@@ -27,8 +28,8 @@
         y: moveEvt.clientY
       };
 
-      window.setup.setupBlock.style.top = (window.setup.setupBlock.offsetTop - shift.y) + 'px';
-      window.setup.setupBlock.style.left = (window.setup.setupBlock.offsetLeft - shift.x) + 'px';
+      setupBlock.style.top = (setupBlock.offsetTop - shift.y) + 'px';
+      setupBlock.style.left = (setupBlock.offsetLeft - shift.x) + 'px';
     }
 
     // при отпускании мыши перестаем слушать событие движения мыши
@@ -58,7 +59,6 @@
   }
 
   window.dialog = {
-    setupAvatar: setupAvatar,
     onMouseDown: onMouseDown
   };
 
